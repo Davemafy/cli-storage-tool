@@ -1,0 +1,45 @@
+name: Deploy S3 Cloud Storage
+
+on:
+  # Triggers the workflow whenever code is pushed to the 'main' branch
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_storage:
+    # Runs on a fresh Ubuntu virtual machine hosted by GitHub
+    runs-on: ubuntu-latest
+    
+    # Define environment variables used within this job
+    env:
+      AWS_REGION: eu-north-1
+      SCRIPT_NAME: cloud_storage_cli.sh
+
+    steps:
+      - name: Checkout Repository
+        # Action to download the code from the repo onto the runner VM
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        # Action to securely authenticate the runner to AWS using GitHub Secrets
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Make Deployment Script Executable
+        # Ensure the Bash script can be run
+        run: chmod +x ${{ env.SCRIPT_NAME }}
+
+      - name: Run Storage Deployment (Task 1)
+        # Execute the 'deploy' function of your Bash script
+        run: |
+          echo "Starting S3 deployment using ${SCRIPT_NAME}..."
+          ./${SCRIPT_NAME} deploy 2>&1
+        shell: bash
+        
+      - name: Report Deployment Success
+        # Simple step to confirm the script ran
+        run: echo "Deployment command executed. Check logs above for the new bucket name."
