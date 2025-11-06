@@ -3,7 +3,7 @@
 # --- Configuration ---
 # NOTE: The BUCKET_NAME must be unique globally across S3.
 # The 'deploy' command will generate a unique name if this is empty.
-S3_BUCKET_NAME=""
+S3_BUCKET_NAME="my-simple-cloud-storage-1762449099"
 REGION="eu-north-1" 
 LOG_FILE="storage_activity.log"
 # ---------------------
