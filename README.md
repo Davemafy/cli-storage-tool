@@ -1,3 +1,16 @@
+# Bucketroom — S3 Storage Tool
+
+This project now has **two interfaces over Amazon S3**:
+
+- `cloud_storage_cli.sh` — the original Bash/AWS CLI interface
+- `web/` — a React + TypeScript interface deployed entirely on Vercel, with Vercel Functions generating short-lived S3 upload/download URLs
+
+The web app can list, search, upload, download and delete objects without exposing AWS credentials in the browser. See [`web/README.md`](web/README.md) for deployment.
+
+> The S3 provisioning workflow is manual (`workflow_dispatch`) so normal pushes do not create a new bucket. Vercel handles web deployments from Git.
+
+---
+
 # ☁️ Project 4: Simple Cloud-based File Storage (S3/Bash CLI)
 
 ## 🎯 Objectives
@@ -76,3 +89,19 @@ The provided GitHub Actions workflow (`deploy.yml`) allows you to automate the i
 
 This workflow runs the `./cloud_storage_cli.sh deploy` command using your provided credentials whenever you push changes, ensuring your cloud storage is set up automatically.
 
+
+---
+
+## 🖥️ Bucketroom Web Interface
+
+The project now also includes a browser interface in [`web/`](./web) while keeping the original Bash CLI intact.
+
+The web app uses **React + TypeScript** on the frontend and **Node.js + Express + AWS SDK** on the server. It supports drag-and-drop upload, listing, search, download, delete and object metadata. AWS credentials remain server-side.
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+See [`web/README.md`](./web/README.md) for S3 configuration and deployment details.
